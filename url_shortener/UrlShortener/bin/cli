@@ -1,0 +1,46 @@
+#
+#
+# class Asdf
+#
+#
+#   def interface
+
+    while true
+      puts "What is your email"
+
+      email =  gets.chomp
+      user = User.where(email: email).first_or_create
+
+      puts "what you you like to do"
+      puts "0 - create shortened url"
+      puts "1 - visit shortened url"
+
+      response = Integer(gets)
+
+      if response == 0
+        puts "Type your long url"
+        long_url = gets.chomp
+        short_url = ShortenedUrl.create_for_user_and_long_url!(user, long_url)
+        puts "Ok, here is your shortend url"
+        puts "#{short_url}"
+        puts "thank you"
+        break
+      elsif response == 1
+        puts "Type in the shortened URL"
+        short_url = gets.chomp
+
+        long_url = ShortenedUrl.find_by_short_url(short_url).long_url
+        p long_url
+        Launchy.open(long_url)
+
+
+        break
+      end
+
+    end
+
+
+#   end
+#
+#
+# end
